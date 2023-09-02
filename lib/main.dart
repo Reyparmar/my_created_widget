@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:my_created_widget/screen/custom_scrolling.dart';
+import 'package:my_created_widget/utility/helper.dart';
 import 'package:my_created_widget/widget/app_button.dart';
 
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
@@ -33,7 +35,25 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  List<String> list = ['Custom scrolling'];
+  List<String> list = [
+    'Custom scrolling',
+    'Show Toast',
+  ];
+
+  void onButtonTap(int index) {
+    switch (list[index]) {
+      case 'Custom scrolling':
+        navigatorKey.currentState?.push(
+          MaterialPageRoute(
+            builder: (context) => const CustomScrolling(),
+          ),
+        );
+        break;
+      case 'Show Toast':
+        Helper.showToast('Show Toast Testing');
+        break;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -51,9 +71,12 @@ class _MyHomePageState extends State<MyHomePage> {
             // ignore: prefer_const_literals_to_create_immutables
             children: List.generate(
               list.length,
-              (index) => AppButton(
-                onPressed: () {},
-                name: list[index],
+              (index) => Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: AppButton(
+                  onPressed: () => onButtonTap(index),
+                  name: list[index],
+                ),
               ),
             ),
           ),
